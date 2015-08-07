@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">TextLinkify</string>
+    <string name="add_text_links">Pridať textové odkazy</string>
+    <string name="app_description">Zvýrazniť telefónne čísla, webové URL adresy, e-mailové adresy a mapové adresy v ľubovoľnej aplikácii</string>
+    <string name="app_preferences">Nastavenia</string>
+    <string name="app_settings">Nastavenia aplikácií</string>
+    <string name="email_addresses">E-mailové adresy</string>
+    <string name="include_system_apps">Zahrnúť systémové aplikácie</string>
+    <string name="map_addresses">Mapové adresy</string>
+    <string name="module_settings">Nastavenia modulu</string>
+    <string name="phone_numbers">Telefónne čísla</string>
+    <string name="web_urls">Webové URL adresy</string>
+</resources>

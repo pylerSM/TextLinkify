@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory
+        android:key="module_settings"
+        android:title="@string/module_settings" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="enable_module"
+            android:title="@string/app_name" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="include_system_apps"
+            android:title="@string/include_system_apps" />
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:key="app_settings"
+        android:title="@string/app_settings" >
+    </PreferenceCategory>
+
+</PreferenceScreen>

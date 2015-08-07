@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">TextLinkify</string>
+    <string name="app_settings">App settings</string>
+    <string name="module_settings">Module settings</string>
+    <string name="include_system_apps">Include system apps</string>
+    <string name="phone_numbers">Phone numbers</string>
+    <string name="email_addresses">E-mail addresses</string>
+    <string name="web_urls">Web URLs</string>
+    <string name="map_addresses">Map addresses</string>
+    <string name="add_text_links">Add text links</string>
+    <string name="app_preferences">Settings</string>
+    <string name="app_description">Highlight phone numbers, web urls, e-mail addresses and map addresses in any app</string>
+</resources>
