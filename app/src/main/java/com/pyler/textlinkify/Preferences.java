@@ -12,7 +12,6 @@ import android.preference.Preference;
 import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -130,8 +129,6 @@ public class Preferences extends Activity {
                         prefsEditor.putBoolean("first_run", false);
                         prefsEditor.apply();
                     }
-                    boolean log = false;
-                    if (packageName.contains("myapp4")) log = true;
                     Set<String> enabledItems = prefs.getStringSet(packageName, new HashSet<String>());
                     int enabledItemsLength = enabledItems.size();
                     String summary = "";
@@ -145,7 +142,6 @@ public class Preferences extends Activity {
                         }
                         enabledItemsLength--;
                     }
-                    if (log) Log.d("myapp", "" + summary);
                     if (summary != null || !summary.isEmpty()) {
                         preference.setSummary(summary);
                     }
