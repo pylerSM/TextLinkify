@@ -44,7 +44,6 @@ public class Preferences extends Activity {
             addPreferencesFromResource(R.xml.preferences);
             prefs = PreferenceManager.getDefaultSharedPreferences(context);
             isFirstRun = prefs.getBoolean("first_run", true);
-            PreferenceCategory appSettings = (PreferenceCategory) findPreference("app_settings");
             Preference includeSystemApps = findPreference("include_system_apps");
             includeSystemApps
                     .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -90,7 +89,7 @@ public class Preferences extends Activity {
 
             @Override
             protected Void doInBackground(Void... arg0) {
-                List<String[]> sortedApps = new ArrayList<String[]>();
+                List<String[]> sortedApps = new ArrayList<>();
 
                 for (ApplicationInfo app : packages) {
                     if (isAllowedApp(app)) {
@@ -120,7 +119,7 @@ public class Preferences extends Activity {
                     preference.setDialogTitle(dialogTitle);
                     String[] entries = new String[]{getString(R.string.phone_numbers), getString(R.string.web_urls), getString(R.string.email_addresses), getString(R.string.map_addresses)};
                     String[] entryValues = new String[]{Common.PHONE_NUMBERS, Common.WEB_URLS, Common.EMAIL_ADDRESSES, Common.MAP_ADDRESSES};
-                    Set<String> defaultValuesSet = new HashSet<String>(Arrays.asList(entryValues));
+                    Set<String> defaultValuesSet = new HashSet<>(Arrays.asList(entryValues));
                     preference.setEntries(entries);
                     preference.setEntryValues(entryValues);
                     if (isFirstRun) {
@@ -142,7 +141,7 @@ public class Preferences extends Activity {
                         }
                         enabledItemsLength--;
                     }
-                    if (summary != null || !summary.isEmpty()) {
+                    if (!summary.isEmpty()) {
                         preference.setSummary(summary);
                     }
                     appSettings.addPreference(preference);
