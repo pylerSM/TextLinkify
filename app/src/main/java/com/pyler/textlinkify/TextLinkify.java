@@ -6,6 +6,7 @@ import android.content.pm.ApplicationInfo;
 import android.text.util.Linkify;
 import android.widget.TextView;
 
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -65,8 +66,10 @@ public class TextLinkify implements IXposedHookZygoteInit {
             }
         }
 
-        Set<String> textLinks = prefs.getStringSet(packageName,
-                new HashSet<String>());
+        String[] defaultValues = new String[]{Common.PHONE_NUMBERS, Common.WEB_URLS, Common.EMAIL_ADDRESSES, Common.MAP_ADDRESSES};
+        Set<String> defaultValuesSet = new HashSet<String>(Arrays.asList(defaultValues));
+
+        Set<String> textLinks = prefs.getStringSet(packageName, defaultValuesSet);
         if (textLinks.isEmpty()) {
             return;
         }
