@@ -16,7 +16,7 @@
 
         <MultiSelectListPreference
             android:defaultValue="@array/global_text_links_default"
-            android:entries="@array/global_text_links"
+            android:entries="@array/global_text_links_options"
             android:entryValues="@array/global_text_links_values"
             android:key="global_text_links"
             android:title="@string/global_text_links" />
