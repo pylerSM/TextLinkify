@@ -72,16 +72,6 @@ public class Preferences extends Activity {
                 globalTextLinks.setSummary(summary);
             }
 
-            includeSystemApps
-                    .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                        @Override
-                        public boolean onPreferenceChange(
-                                Preference preference, Object newValue) {
-                            reloadAppsList();
-                            return true;
-                        }
-                    });
-
             useCustomAppSettings
                     .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                         @Override
