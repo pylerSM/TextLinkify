@@ -72,6 +72,20 @@ public class Preferences extends Activity {
                 globalTextLinks.setSummary(summary);
             }
 
+            includeSystemApps
+                    .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                        @Override
+                        public boolean onPreferenceChange(
+                                Preference preference, Object newValue) {
+                            boolean useCustomAppSettings = prefs.getBoolean("use_custom_app_settings",
+                                    false);
+                            if (useCustomAppSettings) {
+                                reloadAppsList();
+                            }
+                            return true;
+                        }
+                    });
+
             useCustomAppSettings
                     .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                         @Override
