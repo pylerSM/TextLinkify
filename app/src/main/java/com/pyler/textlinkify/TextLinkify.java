@@ -43,6 +43,7 @@ public class TextLinkify implements IXposedHookZygoteInit {
         boolean enabledModule = prefs.getBoolean("enable_module", true);
         boolean includeSystemApps = prefs.getBoolean("include_system_apps",
                 false);
+        boolean useCustomAppSettings = prefs.getBoolean("use_custom_app_settings", false);
 
         if (!enabledModule) {
             return;
@@ -64,8 +65,8 @@ public class TextLinkify implements IXposedHookZygoteInit {
                 return;
             }
         }
-
-        Set<String> textLinks = prefs.getStringSet(packageName, new HashSet<String>());
+        String setting = useCustomAppSettings ? packageName : Common.GLOBAL_TEXT_LINKS;
+        Set<String> textLinks = prefs.getStringSet(setting, new HashSet<String>());
         if (textLinks.isEmpty()) {
             return;
         }

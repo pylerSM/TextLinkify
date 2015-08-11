@@ -11,4 +11,8 @@
     <string name="module_settings">Nastavenia modulu</string>
     <string name="phone_numbers">Telefónne čísla</string>
     <string name="web_urls">Webové URL adresy</string>
+    <string name="global_text_links">Globálne textové odkazy</string>
+    <string name="use_custom_app_settings">Použiť vlastné nastavenia aplikácií</string>
+    <string name="loading_apps">Načítavanie aplikácií</string>
+    <string name="show_app_icon">Zobraziť ikonu aplikácie</string>
 </resources>

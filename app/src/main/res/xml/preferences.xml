@@ -1,23 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
 
     <PreferenceCategory
         android:key="module_settings"
-        android:title="@string/module_settings" >
+        android:title="@string/module_settings">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="enable_module"
             android:title="@string/app_name" />
 
         <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="show_app_icon"
+            android:title="@string/show_app_icon" />
+
+        <MultiSelectListPreference
+            android:defaultValue="@array/global_text_links_default"
+            android:entries="@array/global_text_links"
+            android:entryValues="@array/global_text_links_values"
+            android:key="global_text_links"
+            android:title="@string/global_text_links" />
+
+        <CheckBoxPreference
             android:defaultValue="false"
             android:key="include_system_apps"
             android:title="@string/include_system_apps" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="use_custom_app_settings"
+            android:title="@string/use_custom_app_settings" />
     </PreferenceCategory>
 
     <PreferenceCategory
         android:key="app_settings"
-        android:title="@string/app_settings" >
-    </PreferenceCategory>
+        android:title="@string/app_settings"/>
 
 </PreferenceScreen>

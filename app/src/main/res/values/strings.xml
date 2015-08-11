@@ -10,4 +10,8 @@
     <string name="add_text_links">Add text links</string>
     <string name="app_preferences">Settings</string>
     <string name="app_description">Highlight phone numbers, web urls, e-mail addresses and map addresses in any app</string>
+    <string name="global_text_links">Global text links</string>
+    <string name="use_custom_app_settings">Use custom app settings</string>
+    <string name="loading_apps">Loading apps</string>
+    <string name="show_app_icon">Show app icon</string>
 </resources>

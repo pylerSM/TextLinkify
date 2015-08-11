@@ -11,4 +11,8 @@
     <string name="map_addresses">Mapové adresy</string>
     <string name="include_system_apps">Zahrnout systémové aplikace</string>
     <string name="email_addresses">E-mailové adresy</string>
+    <string name="global_text_links">Global text links</string>
+    <string name="use_custom_app_settings">Use custom app settings</string>
+    <string name="loading_apps">Loading apps</string>
+    <string name="show_app_icon">Show app icon</string>
 </resources>

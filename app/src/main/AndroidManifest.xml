@@ -1,9 +1,11 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.pyler.textlinkify">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.pyler.textlinkify">
 
-    <application android:allowBackup="true"
+    <application
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:theme="@style/AppTheme" >
+        android:theme="@style/AppTheme">
         <meta-data
             android:name="xposedmodule"
             android:value="true" />
@@ -14,15 +16,26 @@
             android:name="xposedminversion"
             android:value="30" />
 
-        <activity
-            android:name="com.pyler.textlinkify.Preferences"
-            android:label="@string/app_name" >
+        <activity android:name=".Preferences">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="de.robv.android.xposed.category.MODULE_SETTINGS" />
+            </intent-filter>
+        </activity>
+
+        <activity-alias
+            android:name=".Settings"
+            android:enabled="true"
+            android:icon="@mipmap/ic_launcher"
+            android:label="@string/app_name"
+            android:targetActivity=".Preferences">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
-        </activity>
+        </activity-alias>
 
     </application>
 
