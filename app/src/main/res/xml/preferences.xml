@@ -23,17 +23,27 @@
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="include_system_apps"
-            android:title="@string/include_system_apps" />
+            android:key="enable_for_all_apps"
+            android:title="@string/enable_for_all_apps" />
+
+        <MultiSelectListPreference
+            android:key="enable_for_apps"
+            android:title="@string/enable_for_apps" />
+        <MultiSelectListPreference
+            android:key="disable_for_apps"
+            android:title="@string/disable_for_apps" />
 
         <CheckBoxPreference
             android:defaultValue="false"
-            android:key="use_custom_app_settings"
-            android:title="@string/use_custom_app_settings" />
+            android:key="include_system_apps"
+            android:title="@string/include_system_apps" />
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="custom_app_settings"
+            android:title="@string/custom_app_settings" />
     </PreferenceCategory>
-
     <PreferenceCategory
         android:key="app_settings"
-        android:title="@string/app_settings"/>
+        android:title="@string/app_settings" />
 
 </PreferenceScreen>

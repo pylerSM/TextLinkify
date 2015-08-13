@@ -52,8 +52,8 @@ public class Preferences extends Activity {
             entries = new String[]{getString(R.string.phone_numbers), getString(R.string.web_urls), getString(R.string.email_addresses), getString(R.string.map_addresses)};
             entryValues = new String[]{Common.PHONE_NUMBERS, Common.WEB_URLS, Common.EMAIL_ADDRESSES, Common.MAP_ADDRESSES};
             CheckBoxPreference includeSystemApps = (CheckBoxPreference) findPreference("include_system_apps");
-            CheckBoxPreference useCustomAppSettings = (CheckBoxPreference) findPreference("use_custom_app_settings");
             CheckBoxPreference showAppIcon = (CheckBoxPreference) findPreference("show_app_icon");
+            CheckBoxPreference customAppSettings = (CheckBoxPreference) findPreference("custom_app_settings");
             MultiSelectListPreference globalTextLinks = (MultiSelectListPreference) findPreference("global_text_links");
             Set<String> enabledItems = prefs.getStringSet(Common.GLOBAL_TEXT_LINKS, new HashSet<String>());
             int enabledItemsLength = enabledItems.size();
@@ -77,21 +77,17 @@ public class Preferences extends Activity {
                         @Override
                         public boolean onPreferenceChange(
                                 Preference preference, Object newValue) {
-                            boolean useCustomAppSettings = prefs.getBoolean("use_custom_app_settings",
-                                    false);
-                            if (useCustomAppSettings) {
-                                reloadAppsList();
-                            }
+                            reloadAppsList();
                             return true;
                         }
                     });
 
-            useCustomAppSettings
+            customAppSettings
                     .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                         @Override
                         public boolean onPreferenceChange(
                                 Preference preference, Object newValue) {
-                            boolean enabled = (Boolean) newValue;
+                            boolean enabled = (boolean) newValue;
                             if (enabled) {
                                 reloadAppsList();
                             } else {
@@ -100,6 +96,7 @@ public class Preferences extends Activity {
                             return true;
                         }
                     });
+
 
             showAppIcon
                     .setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -119,9 +116,7 @@ public class Preferences extends Activity {
                         }
                     });
 
-            if (prefs.getBoolean("use_custom_app_settings", false)) {
-                reloadAppsList();
-            }
+            reloadAppsList();
         }
 
         public void reloadAppsList() {
@@ -140,6 +135,10 @@ public class Preferences extends Activity {
         }
 
         public class LoadApps extends AsyncTask<Void, Void, Void> {
+            MultiSelectListPreference enabledApps = (MultiSelectListPreference) findPreference("enable_for_apps");
+            MultiSelectListPreference disabledApps = (MultiSelectListPreference) findPreference("disable_for_apps");
+            List<CharSequence> appNames = new ArrayList<CharSequence>();
+            List<CharSequence> packageNames = new ArrayList<CharSequence>();
             PackageManager pm = context.getPackageManager();
             List<ApplicationInfo> packages = pm
                     .getInstalledApplications(PackageManager.GET_META_DATA);
@@ -149,12 +148,14 @@ public class Preferences extends Activity {
             protected void onPreExecute() {
                 loadingApps.setMessage(getString(R.string.loading_apps));
                 loadingApps.show();
+                enabledApps.setEnabled(false);
+                disabledApps.setEnabled(false);
                 appSettings.removeAll();
             }
 
             @Override
             protected Void doInBackground(Void... arg0) {
-                List<String[]> sortedApps = new ArrayList<>();
+                List<String[]> sortedApps = new ArrayList<String[]>();
 
                 for (ApplicationInfo app : packages) {
                     if (isAllowedApp(app)) {
@@ -176,32 +177,38 @@ public class Preferences extends Activity {
                     String packageName = sortedApps.get(i)[0];
                     String appName = sortedApps.get(i)[1];
 
-                    MultiSelectListPreference preference = new MultiSelectListPreference(getActivity());
+                    appNames.add(appName);
+                    packageNames.add(packageName);
 
-                    preference.setKey(packageName);
-                    preference.setTitle(appName);
-                    String dialogTitle = getString(R.string.add_text_links);
-                    preference.setDialogTitle(dialogTitle);
-                    Set<String> defaultValuesSet = new HashSet<>(Arrays.asList(entryValues));
-                    preference.setEntries(entries);
-                    preference.setEntryValues(entryValues);
-                    Set<String> enabledItems = prefs.getStringSet(packageName, new HashSet<String>());
-                    int enabledItemsLength = enabledItems.size();
-                    String summary = "";
-                    for (String enabledItem : enabledItems) {
-                        int pos = Arrays.asList(entryValues).indexOf(enabledItem);
-                        String enabledValue = entries[pos];
-                        if (enabledItemsLength > 1) {
-                            summary += enabledValue + ", ";
-                        } else {
-                            summary += enabledValue;
+                    boolean customAppSettings = prefs.getBoolean("custom_app_settings", false);
+                    if (customAppSettings) {
+                        MultiSelectListPreference preference = new MultiSelectListPreference(getActivity());
+
+                        preference.setKey(packageName);
+                        preference.setTitle(appName);
+                        String dialogTitle = getString(R.string.text_links);
+                        preference.setDialogTitle(dialogTitle);
+                        Set<String> defaultValuesSet = new HashSet<>(Arrays.asList(entryValues));
+                        preference.setEntries(entries);
+                        preference.setEntryValues(entryValues);
+                        Set<String> enabledItems = prefs.getStringSet(packageName, new HashSet<String>());
+                        int enabledItemsLength = enabledItems.size();
+                        String summary = "";
+                        for (String enabledItem : enabledItems) {
+                            int pos = Arrays.asList(entryValues).indexOf(enabledItem);
+                            String enabledValue = entries[pos];
+                            if (enabledItemsLength > 1) {
+                                summary += enabledValue + ", ";
+                            } else {
+                                summary += enabledValue;
+                            }
+                            enabledItemsLength--;
                         }
-                        enabledItemsLength--;
+                        if (!summary.isEmpty()) {
+                            preference.setSummary(summary);
+                        }
+                        appSettings.addPreference(preference);
                     }
-                    if (!summary.isEmpty()) {
-                        preference.setSummary(summary);
-                    }
-                    appSettings.addPreference(preference);
                 }
 
                 return null;
@@ -209,6 +216,17 @@ public class Preferences extends Activity {
 
             @Override
             protected void onPostExecute(Void result) {
+                CharSequence[] appNamesList = appNames
+                        .toArray(new CharSequence[appNames.size()]);
+                CharSequence[] packageNamesList = packageNames
+                        .toArray(new CharSequence[packageNames.size()]);
+
+                enabledApps.setEntries(appNamesList);
+                enabledApps.setEntryValues(packageNamesList);
+                enabledApps.setEnabled(true);
+                disabledApps.setEntries(appNamesList);
+                disabledApps.setEntryValues(packageNamesList);
+                disabledApps.setEnabled(true);
                 appSettings.setEnabled(true);
                 loadingApps.dismiss();
             }
@@ -217,4 +235,3 @@ public class Preferences extends Activity {
 
 
 }
-
