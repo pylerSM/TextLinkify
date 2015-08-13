@@ -137,8 +137,8 @@ public class Preferences extends Activity {
         public class LoadApps extends AsyncTask<Void, Void, Void> {
             MultiSelectListPreference enabledApps = (MultiSelectListPreference) findPreference("enable_for_apps");
             MultiSelectListPreference disabledApps = (MultiSelectListPreference) findPreference("disable_for_apps");
-            List<CharSequence> appNames = new ArrayList<CharSequence>();
-            List<CharSequence> packageNames = new ArrayList<CharSequence>();
+            List<CharSequence> appNames = new ArrayList<>();
+            List<CharSequence> packageNames = new ArrayList<>();
             PackageManager pm = context.getPackageManager();
             List<ApplicationInfo> packages = pm
                     .getInstalledApplications(PackageManager.GET_META_DATA);
@@ -155,7 +155,7 @@ public class Preferences extends Activity {
 
             @Override
             protected Void doInBackground(Void... arg0) {
-                List<String[]> sortedApps = new ArrayList<String[]>();
+                List<String[]> sortedApps = new ArrayList<>();
 
                 for (ApplicationInfo app : packages) {
                     if (isAllowedApp(app)) {
@@ -188,7 +188,6 @@ public class Preferences extends Activity {
                         preference.setTitle(appName);
                         String dialogTitle = getString(R.string.text_links);
                         preference.setDialogTitle(dialogTitle);
-                        Set<String> defaultValuesSet = new HashSet<>(Arrays.asList(entryValues));
                         preference.setEntries(entries);
                         preference.setEntryValues(entryValues);
                         Set<String> enabledItems = prefs.getStringSet(packageName, new HashSet<String>());
