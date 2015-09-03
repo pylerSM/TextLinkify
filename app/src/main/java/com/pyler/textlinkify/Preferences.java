@@ -88,6 +88,8 @@ public class Preferences extends Activity {
                         public boolean onPreferenceChange(
                                 Preference preference, Object newValue) {
                             boolean enabled = (boolean) newValue;
+                            MultiSelectListPreference globalTextLinks = (MultiSelectListPreference) findPreference("global_text_links");
+                            globalTextLinks.setEnabled(!enabled);
                             if (enabled) {
                                 reloadAppsList();
                             } else {
@@ -115,6 +117,10 @@ public class Preferences extends Activity {
                             return true;
                         }
                     });
+
+            if (customAppSettings.isChecked()) {
+                globalTextLinks.setEnabled(false);
+            }
 
             reloadAppsList();
         }
