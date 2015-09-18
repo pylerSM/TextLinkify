@@ -41,8 +41,6 @@ public class TextLinkify implements IXposedHookZygoteInit {
         int textLinkFlags = 0;
         prefs.reload();
         boolean enabledModule = prefs.getBoolean("enable_module", true);
-        boolean includeSystemApps = prefs.getBoolean("include_system_apps",
-                false);
         boolean customAppSettings = prefs.getBoolean("custom_app_settings", false);
 
         if (!enabledModule) {
@@ -52,18 +50,9 @@ public class TextLinkify implements IXposedHookZygoteInit {
             return;
         }
 
-        if (context == null) {
-            if (!"android".equals(packageName) || !includeSystemApps) {
-                return;
-            }
-        } else {
-            ApplicationInfo appInfo = context.getApplicationInfo();
-            if (appInfo == null) {
-                return;
-            }
-            if (!isAllowedApp(appInfo)) {
-                return;
-            }
+        ApplicationInfo appInfo = context.getApplicationInfo();
+        if (!isAllowedApp(appInfo)) {
+            return;
         }
 
         boolean enabledForAllApps = prefs.getBoolean("enable_for_all_apps",
@@ -81,7 +70,6 @@ public class TextLinkify implements IXposedHookZygoteInit {
                 return;
             }
         }
-
 
         String pref = customAppSettings ? packageName : Common.GLOBAL_TEXT_LINKS;
         Set<String> textLinks = prefs.getStringSet(pref, new HashSet<String>());
@@ -119,14 +107,17 @@ public class TextLinkify implements IXposedHookZygoteInit {
     }
 
     public boolean isAllowedApp(ApplicationInfo appInfo) {
-        boolean isAllowedApp = true;
         prefs.reload();
         boolean includeSystemApps = prefs.getBoolean("include_system_apps",
                 false);
-        if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0
-                && !includeSystemApps) {
-            isAllowedApp = false;
+        if (appInfo == null) {
+            return includeSystemApps;
+        } else {
+            if ((appInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0
+                    && !includeSystemApps) {
+                return false;
+            }
         }
-        return isAllowedApp;
+        return true;
     }
 }
