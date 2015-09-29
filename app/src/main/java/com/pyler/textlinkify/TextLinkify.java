@@ -50,7 +50,7 @@ public class TextLinkify implements IXposedHookZygoteInit {
             return;
         }
 
-        ApplicationInfo appInfo = context.getApplicationInfo();
+        ApplicationInfo appInfo = (context == null) ? null : context.getApplicationInfo();
         if (!isAllowedApp(appInfo)) {
             return;
         }
